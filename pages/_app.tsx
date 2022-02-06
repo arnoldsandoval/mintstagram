@@ -1,27 +1,21 @@
 import type { AppProps } from "next/app";
+import * as fcl from "@onflow/fcl";
+import * as types from "@onflow/types";
 import { extendTheme, ChakraProvider } from "@chakra-ui/react";
+import { global, Button, Menu } from "../theme";
 
-const colors = {
-  brand: {
-    900: "#1a365d",
-    800: "#153e75",
-    700: "#2a69ac",
-  },
-};
+fcl
+  .config()
+  .put("accessNode.api", "https://access-testnet.onflow.org")
+  .put("discovery.wallet", "https://fcl-discovery.onflow.org/testnet/authn");
 
 const theme = extendTheme({
-  colors,
   styles: {
-    global: {
-      "html, body": {
-        background: "black",
-        color: "white",
-        lineHeight: "tall",
-      },
-      a: {
-        color: "teal.500",
-      },
-    },
+    global,
+  },
+  components: {
+    Button,
+    Menu,
   },
 });
 
