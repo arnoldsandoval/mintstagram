@@ -52,4 +52,19 @@ export default NextAuth({
       },
     },
   ],
+  session: { jwt: true },
+  callbacks: {
+    async jwt({ token, account }: { token: any; account: any }) {
+      // Persist the OAuth access_token to the token right after signin
+      if (account) {
+        token.accessToken = account.access_token;
+      }
+      return token;
+    },
+    async session({ session, token }: { session: any; token: any }) {
+      // Send properties to the client, like an access_token from a provider.
+      session.accessToken = token.accessToken;
+      return session;
+    },
+  },
 });
