@@ -23,11 +23,12 @@ export const MediaCard = ({
   return (
     <Box
       key={id}
+      as="button"
       maxW="sm"
       background="gray.900"
       overflow="hidden"
       transition="all 0.2s"
-      tabIndex={-1}
+      borderRadius="0"
       boxShadow={
         isSelected
           ? "0 0 0px 5px black, 0 0 0px 8px #f9c74f"

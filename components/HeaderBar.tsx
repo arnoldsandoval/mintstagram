@@ -44,9 +44,8 @@ export const HeaderBar = ({
                 py={2}
                 transition="all 0.2s"
                 borderRadius="full"
-                borderWidth="1px"
-                _hover={{ bg: "gray.400" }}
-                _expanded={{ bg: "blue.400" }}
+                _hover={{ bg: "gray.900" }}
+                _expanded={{ bg: "white", color: "black" }}
                 _focus={{ boxShadow: "outline" }}
               >
                 <IoPersonOutline />
