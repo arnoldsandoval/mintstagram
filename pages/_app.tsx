@@ -11,6 +11,15 @@ fcl
   .put("discovery.wallet", "https://fcl-discovery.onflow.org/testnet/authn");
 
 const theme = extendTheme({
+  colors: {
+    gray: {
+      500: "#757575",
+      600: "#616161",
+      700: "#424242",
+      800: "#212121",
+      900: "#1d1d21",
+    },
+  },
   styles: {
     global,
   },

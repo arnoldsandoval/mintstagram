@@ -1,4 +1,4 @@
-import { Box, Image, Text, Badge } from "@chakra-ui/react";
+import { Box, Image, Text, Badge, Flex } from "@chakra-ui/react";
 import { useState } from "react";
 import { format } from "date-fns";
 
@@ -25,7 +25,7 @@ export const MediaCard = ({
       key={id}
       as="button"
       maxW="sm"
-      background="gray.900"
+      background="#111"
       overflow="hidden"
       transition="all 0.2s"
       borderRadius="0"
@@ -36,9 +36,11 @@ export const MediaCard = ({
       }
       onClick={() => setIsSelected(!isSelected)}
     >
-      <Image src={media_url} alt="Media" />
+      <Flex justifyContent="center" alignItems="center" bg="gray.900">
+        <Image src={media_url} alt="Media" maxHeight={380} />
+      </Flex>
       <Box p="6">
-        <Box fontWeight="semibold" as="h4" lineHeight="tight" isTruncated>
+        <Box fontWeight="semibold" isTruncated textAlign="left">
           @{username}{" "}
           <Text fontWeight="normal" display="inline">
             {caption}
@@ -57,7 +59,7 @@ export const MediaCard = ({
             ml="2"
             mt="2"
           >
-            {format(new Date(timestamp), "MM/dd/yy")}
+            {format(new Date(timestamp), "MM/dd/yyyy")}
           </Box>
         </Box>
       </Box>

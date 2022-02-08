@@ -10,7 +10,7 @@ let accessToken: string;
 
 export const getInstagramMedia = async () => {
   const { data } = await axios.get(
-    `https://graph.instagram.com/me/media?fields=id,media_type,media_url,username,timestamp&access_token=${accessToken}`
+    `https://graph.instagram.com/me/media?fields=id,media_type,media_url,username,timestamp,caption&access_token=${accessToken}`
   );
 
   return data;
