@@ -3,7 +3,8 @@ import * as fcl from "@onflow/fcl";
 import * as types from "@onflow/types";
 import { extendTheme, ChakraProvider } from "@chakra-ui/react";
 import { global, Button, Menu } from "../theme";
-
+import { SessionProvider } from "next-auth/react";
+import { Layout } from "../containers";
 fcl
   .config()
   .put("accessNode.api", "https://access-testnet.onflow.org")
@@ -19,11 +20,15 @@ const theme = extendTheme({
   },
 });
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
-    <ChakraProvider theme={theme}>
-      <Component {...pageProps} />
-    </ChakraProvider>
+    <SessionProvider session={session}>
+      <ChakraProvider theme={theme}>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </ChakraProvider>
+    </SessionProvider>
   );
 }
 
