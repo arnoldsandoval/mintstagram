@@ -30,44 +30,46 @@ const MOCK_RESPONSE = {
 const Media: NextPage = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const isAuthenticated = status === "authenticated";
+  const isLoading = status === "loading";
 
   useEffect(() => {
-    if (status !== "authenticated") {
+    if (!isAuthenticated && !isLoading) {
       router.push("/");
     }
-  }, [router, status]);
+  }, [isAuthenticated, isLoading, router, status]);
 
-  if (status !== "authenticated") {
-    return <Spinner />;
+  if (isAuthenticated && !isLoading) {
+    return (
+      <Stack spacing={5}>
+        <Box mb={5}>
+          <Heading as="h1" size="xl" mb={3}>
+            Hi, {session.user.name}!
+          </Heading>
+          <Text>
+            Select a piece of media below you wish to turn in to an NFT!
+          </Text>
+        </Box>
+        <Grid templateColumns="repeat(3, 1fr)" gap={6}>
+          {MOCK_RESPONSE.data.map(
+            ({ id, media_type, media_url, username, timestamp, caption }) => (
+              <MediaCard
+                key={id}
+                id={id}
+                media_type={media_type}
+                media_url={media_url}
+                username={username}
+                timestamp={timestamp}
+                caption={caption}
+              />
+            )
+          )}
+        </Grid>
+      </Stack>
+    );
   }
 
-  return (
-    <Stack spacing={5}>
-      <Box mb={5}>
-        <Heading as="h1" size="xl" mb={3}>
-          Hi, {session.user.name}!
-        </Heading>
-        <Text>
-          Select a piece of media below you wish to turn in to an NFT!
-        </Text>
-      </Box>
-      <Grid templateColumns="repeat(3, 1fr)" gap={6}>
-        {MOCK_RESPONSE.data.map(
-          ({ id, media_type, media_url, username, timestamp, caption }) => (
-            <MediaCard
-              key={id}
-              id={id}
-              media_type={media_type}
-              media_url={media_url}
-              username={username}
-              timestamp={timestamp}
-              caption={caption}
-            />
-          )
-        )}
-      </Grid>
-    </Stack>
-  );
+  return <Spinner />;
 };
 
 export default Media;

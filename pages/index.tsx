@@ -3,8 +3,9 @@ import {
   Container,
   Button,
   Heading,
-  Stack,
+  Flex,
   Text,
+  Box,
   Spinner,
 } from "@chakra-ui/react";
 
@@ -39,6 +40,7 @@ const Home: NextPage = () => {
   const router = useRouter();
   const { data: session, status } = useSession();
   const isAuthenticated = status === "authenticated";
+  const isLoading = status === "loading";
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -46,35 +48,33 @@ const Home: NextPage = () => {
     }
   }, [isAuthenticated, router, status]);
 
-  if (isAuthenticated) {
-    return <Spinner />;
-  }
-
-  return (
-    <>
-      {!isAuthenticated && (
-        <Container maxW="m">
-          <Stack spacing={5}>
-            <Heading as="h1" size="xl">
-              Turn your Instagram post in to an NFT.
-            </Heading>
+  if (!isAuthenticated && !isLoading) {
+    return (
+      <Container maxW="m">
+        <Flex flexDirection="column" gridGap={5}>
+          <Heading as="h1" size="xl">
+            Turn your Instagram post in to an NFT.
+          </Heading>
+          <Box mb={5}>
             <Text as="h1" size="xl">
               Mintstagram is the fastest way turn your Instagram posts in to an
               NFT on the Flow blockchain.
             </Text>
-            <Button
-              variant="instagram"
-              onClick={() => signIn("instagram")}
-              maxW="sm"
-              size="lg"
-            >
-              Sign in with Instagram
-            </Button>
-          </Stack>
-        </Container>
-      )}
-    </>
-  );
+          </Box>
+          <Button
+            variant="instagram"
+            onClick={() => signIn("instagram")}
+            maxW="sm"
+            size="lg"
+          >
+            Sign in with Instagram
+          </Button>
+        </Flex>
+      </Container>
+    );
+  }
+
+  return <Spinner />;
 };
 
 export default Home;

@@ -8,9 +8,10 @@ import {
   MenuList,
   MenuItem,
   MenuDivider,
+  Badge,
 } from "@chakra-ui/react";
-import { IoPersonOutline } from "react-icons/io5";
-
+import { BiUser, BiCoin, BiLogOut } from "react-icons/bi";
+import { IoLogoInstagram } from "react-icons/io";
 interface Props {
   isAuthenticated: boolean;
   session: any;
@@ -48,12 +49,22 @@ export const HeaderBar = ({
                 _expanded={{ bg: "white", color: "black" }}
                 _focus={{ boxShadow: "outline" }}
               >
-                <IoPersonOutline />
+                <BiUser size={24} />
               </MenuButton>
               <MenuList>
-                <MenuItem>{session.user.name}</MenuItem>
+                <MenuItem icon={<IoLogoInstagram size={24} />}>
+                  {session.user.name}
+                </MenuItem>
+                <MenuItem icon={<BiCoin size={24} />}>
+                  No wallet connected
+                </MenuItem>
                 <MenuDivider />
-                <MenuItem onClick={() => handleSignOut()}>Sign out</MenuItem>
+                <MenuItem
+                  icon={<BiLogOut size={24} />}
+                  onClick={() => handleSignOut()}
+                >
+                  Sign out
+                </MenuItem>
               </MenuList>
             </Menu>
           )}

@@ -8,8 +8,9 @@ import { Container } from "@chakra-ui/react";
 
 export const Layout = ({ children }: { children: ReactNode }) => {
   const { data: session, status } = useSession();
-  const isAuthenticated = status === "authenticated";
 
+  const isAuthenticated = status === "authenticated";
+  console.log(session);
   return (
     <>
       <Head>
