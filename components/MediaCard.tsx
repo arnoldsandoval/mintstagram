@@ -2,7 +2,7 @@ import { Box, Image, Text, Badge, Flex } from "@chakra-ui/react";
 import { useState } from "react";
 import { format } from "date-fns";
 
-interface Props {
+export interface MediaObject {
   id: string;
   caption: string;
   media_type: string;
@@ -10,6 +10,12 @@ interface Props {
   timestamp: string;
   username: string;
 }
+
+export interface Props extends MediaObject {
+  onSelection: () => void;
+  isSelected?: boolean;
+}
+
 export const MediaCard = ({
   id,
   media_type,
@@ -17,9 +23,9 @@ export const MediaCard = ({
   timestamp,
   username,
   caption,
+  onSelection,
+  isSelected,
 }: Props) => {
-  const [isSelected, setIsSelected] = useState(false);
-
   return (
     <Box
       key={id}
@@ -34,7 +40,7 @@ export const MediaCard = ({
           ? "0 0 0px 5px black, 0 0 0px 8px #f9c74f"
           : "10px 10px 10px rgba(0,0,0,0)"
       }
-      onClick={() => setIsSelected(!isSelected)}
+      onClick={onSelection}
     >
       <Flex justifyContent="center" alignItems="center" bg="gray.900">
         <Image src={media_url} alt="Media" maxHeight={380} />

@@ -1,7 +1,7 @@
 import { useSession } from "next-auth/react";
-import { Grid, Box, Heading, Text, Stack, Spinner } from "@chakra-ui/react";
+import { Box, Heading, Text, Stack, Spinner } from "@chakra-ui/react";
 import type { NextPage } from "next";
-import { MediaCard } from "../components";
+import { MediaCard, MediaGrid } from "../components";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -44,32 +44,11 @@ const Media: NextPage = () => {
           <Heading as="h1" size="xl" mb={3}>
             Hi, {session.user.name}!
           </Heading>
-          <Text>
+          <Text fontSize="xl">
             Select a piece of media below you wish to turn in to an NFT!
           </Text>
         </Box>
-        <Grid templateColumns="repeat(3, 1fr)" gap={6}>
-          {data.data.map(
-            ({
-              id,
-              media_type,
-              media_url,
-              username,
-              timestamp,
-              caption,
-            }: MediaItem) => (
-              <MediaCard
-                key={id}
-                id={id}
-                media_type={media_type}
-                media_url={media_url}
-                username={username}
-                timestamp={timestamp}
-                caption={caption}
-              />
-            )
-          )}
-        </Grid>
+        <MediaGrid media={data.data} />
       </Stack>
     );
   }

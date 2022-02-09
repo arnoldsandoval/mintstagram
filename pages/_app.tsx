@@ -26,6 +26,18 @@ const theme = extendTheme({
   components: {
     Button,
     Menu,
+    Progress: {
+      baseStyle: {
+        track: {
+          bg: "gray.900",
+        },
+      },
+      variants: {
+        green: {
+          bg: "red",
+        },
+      },
+    },
   },
 });
 
