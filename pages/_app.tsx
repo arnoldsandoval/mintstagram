@@ -5,6 +5,7 @@ import { extendTheme, ChakraProvider } from "@chakra-ui/react";
 import { global, Button, Menu } from "../theme";
 import { SessionProvider } from "next-auth/react";
 import { Layout } from "../containers";
+import { QueryClientProvider, QueryClient } from "react-query";
 fcl
   .config()
   .put("accessNode.api", "https://access-testnet.onflow.org")
@@ -41,15 +42,19 @@ const theme = extendTheme({
   },
 });
 
+const queryClient = new QueryClient();
+
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
-    <SessionProvider session={session}>
-      <ChakraProvider theme={theme}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </ChakraProvider>
-    </SessionProvider>
+    <QueryClientProvider client={queryClient}>
+      <SessionProvider session={session}>
+        <ChakraProvider theme={theme}>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </ChakraProvider>
+      </SessionProvider>
+    </QueryClientProvider>
   );
 }
 

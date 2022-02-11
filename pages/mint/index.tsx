@@ -5,6 +5,8 @@ import { MediaGrid } from "../../components";
 import { ConnectWallet } from "../../containers";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
+import { getInstagramMedia } from "../../queries";
 
 type MediaItem = {
   id: string;
@@ -18,10 +20,14 @@ type MediaItem = {
 const Media: NextPage = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const { data, error, isError, isFetching } = useQuery(
+    "media",
+    getInstagramMedia
+  );
+
   const isAuthenticated = status === "authenticated";
   const isUnauthenticated = status === "unauthenticated";
-  const [data, setData] = useState({ data: [] });
-  const [isLoading, setLoading] = useState(status === "loading");
+  const isLoading = status === "loading" || isFetching;
   const [hasWallet, setHasWallet] = useState(false);
 
   useEffect(() => {
@@ -30,19 +36,7 @@ const Media: NextPage = () => {
     }
   }, [isUnauthenticated, isLoading, router]);
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      setLoading(true);
-      fetch("/api/media")
-        .then((res) => res.json())
-        .then((data) => {
-          setData(data);
-          setLoading(false);
-        });
-    }
-  }, [status, isAuthenticated]);
-
-  if (isLoading || isLoading) {
+  if (isLoading) {
     return <Spinner />;
   }
 
