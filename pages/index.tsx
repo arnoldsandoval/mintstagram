@@ -8,8 +8,8 @@ import {
   Box,
   Spinner,
 } from "@chakra-ui/react";
-
 // import { authenticate, unauthenticate, currentUser } from "@onflow/fcl";
+import { IoLogoInstagram } from "react-icons/io";
 import { create } from "ipfs-http-client";
 export const client = create({ url: "https://ipfs.infura.io:5001/api/v0" });
 import { useSession, signIn } from "next-auth/react";
@@ -44,7 +44,7 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      router.push("/media");
+      router.push("/mint");
     }
   }, [isAuthenticated, router, status]);
 
@@ -63,6 +63,7 @@ const Home: NextPage = () => {
           </Box>
           <Button
             variant="instagram"
+            leftIcon={<IoLogoInstagram size={28} />}
             onClick={() => signIn("instagram")}
             maxW="sm"
             size="lg"
