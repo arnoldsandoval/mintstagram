@@ -22,7 +22,9 @@ const InstagramMedia = async (req: NextApiRequest, res: NextApiResponse) => {
   accessToken = token?.accessToken as string;
 
   if (!session) {
-    return res.status(401).end();
+    return res
+      .status(401)
+      .json({ error: [{ statusCode: 401, message: "Unauthorized" }] });
   }
 
   const data = await getInstagramMedia();
