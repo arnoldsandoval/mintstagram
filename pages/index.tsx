@@ -50,9 +50,9 @@ const Home: NextPage = () => {
               Turn your Instagram post in to an NFT.
             </Heading>
             <Box mb={5}>
-              <Text as="h1" size="xl">
-                Mintstagram is the fastest way turn your Instagram posts in to
-                an NFT on the Flow blockchain.
+              <Text as="h1" fontSize="xl">
+                Mintstagram is the easiest way turn your Instagram posts in to
+                NFTs on Flow.
               </Text>
             </Box>
             <Button
