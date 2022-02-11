@@ -9,7 +9,7 @@ import {
   keyframes,
 } from "@chakra-ui/react";
 import type { NextPage } from "next";
-import { MediaCard, MediaGrid } from "../components";
+import { MediaCard, MediaGrid } from "../../components";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
