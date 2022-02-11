@@ -8,10 +8,12 @@ import {
   MenuList,
   MenuItem,
   MenuDivider,
-  Badge,
+  Button,
+  Text,
 } from "@chakra-ui/react";
-import { BiUser, BiCoin, BiLogOut } from "react-icons/bi";
+import { BiUser, BiWallet, BiLogOut } from "react-icons/bi";
 import { IoLogoInstagram } from "react-icons/io";
+import { useWallet } from "../contexts/FlowAuthContext";
 interface Props {
   isAuthenticated: boolean;
   session: any;
@@ -21,8 +23,15 @@ interface Props {
 export const HeaderBar = ({
   isAuthenticated,
   session,
-  handleSignOut,
+  handleSignOut: instagramSignOut,
 }: Props) => {
+  const { logOut, currentWallet } = useWallet();
+
+  const handleSignOut = () => {
+    instagramSignOut();
+    logOut();
+  };
+
   return (
     <Box borderBottom="1px" borderColor="gray.900">
       <Grid
@@ -50,13 +59,18 @@ export const HeaderBar = ({
                 _focus={{ boxShadow: "outline" }}
               >
                 <BiUser size={24} />
+                {currentWallet.addr &&
+                  currentWallet.addr.slice(0, 3) +
+                    "..." +
+                    currentWallet.addr.slice(-3)}
               </MenuButton>
               <MenuList>
                 <MenuItem icon={<IoLogoInstagram size={24} />}>
                   {session.user.name}
                 </MenuItem>
-                <MenuItem icon={<BiCoin size={24} />}>
-                  No wallet connected
+                <MenuItem icon={<BiWallet size={24} />}>
+                  {!currentWallet.addr && <>No wallet connected</>}
+                  {currentWallet.addr && <>{currentWallet.addr}</>}
                 </MenuItem>
                 <MenuDivider />
                 <MenuItem

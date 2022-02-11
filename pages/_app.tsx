@@ -1,15 +1,14 @@
+import "../flow.config";
+import { ReactQueryDevtools } from "react-query/devtools";
+
 import type { AppProps } from "next/app";
-import * as fcl from "@onflow/fcl";
 import * as types from "@onflow/types";
 import { extendTheme, ChakraProvider } from "@chakra-ui/react";
 import { global, Button, Menu } from "../theme";
 import { SessionProvider } from "next-auth/react";
 import { Layout } from "../containers";
+import { FlowAuthProvider } from "../contexts";
 import { QueryClientProvider, QueryClient } from "react-query";
-fcl
-  .config()
-  .put("accessNode.api", "https://access-testnet.onflow.org")
-  .put("discovery.wallet", "https://fcl-discovery.onflow.org/testnet/authn");
 
 const theme = extendTheme({
   colors: {
@@ -42,19 +41,28 @@ const theme = extendTheme({
   },
 });
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
-    <QueryClientProvider client={queryClient}>
-      <SessionProvider session={session}>
-        <ChakraProvider theme={theme}>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </ChakraProvider>
-      </SessionProvider>
-    </QueryClientProvider>
+    <FlowAuthProvider>
+      <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools initialIsOpen={true} />
+        <SessionProvider session={session}>
+          <ChakraProvider theme={theme}>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </ChakraProvider>
+        </SessionProvider>
+      </QueryClientProvider>
+    </FlowAuthProvider>
   );
 }
 
