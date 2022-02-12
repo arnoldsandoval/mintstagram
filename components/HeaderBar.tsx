@@ -36,12 +36,13 @@ export const HeaderBar = ({
   });
 
   return (
-    <Box borderBottom="1px" borderColor="gray.900">
+    <Box borderBottom="1px" borderColor="gray.900" justifyContent="center">
       <Grid
         templateColumns="repeat(2, auto)"
         gap={6}
         paddingInline={10}
         paddingBlock={3}
+        height="96px"
         alignItems="center"
       >
         <Box>
@@ -63,11 +64,17 @@ export const HeaderBar = ({
               >
                 <Flex flexDirection="row" gridGap={2}>
                   <BiUser size={24} display="inline-block" />
+                  <Text variant="mono">@{session.user.name}</Text> +
                   {currentWallet.addr && (
                     <Text variant="mono">
                       {currentWallet.addr.slice(0, 3) +
                         "..." +
                         currentWallet.addr.slice(-3)}
+                    </Text>
+                  )}
+                  {!currentWallet.addr && (
+                    <Text variant="mono" color="gray.400">
+                      ???
                     </Text>
                   )}
                 </Flex>
