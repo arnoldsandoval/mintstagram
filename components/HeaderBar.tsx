@@ -8,8 +8,6 @@ import {
   MenuList,
   MenuItem,
   MenuDivider,
-  Button,
-  Text,
 } from "@chakra-ui/react";
 import { BiUser, BiWallet, BiLogOut } from "react-icons/bi";
 import { IoLogoInstagram } from "react-icons/io";
@@ -27,9 +25,8 @@ export const HeaderBar = ({
 }: Props) => {
   const { logOut, currentWallet } = useWallet();
 
-  const handleSignOut = () => {
-    instagramSignOut();
-    logOut();
+  const handleSignOut = async () => {
+    await Promise.all([logOut(), instagramSignOut()]);
   };
 
   return (
@@ -58,11 +55,13 @@ export const HeaderBar = ({
                 _expanded={{ bg: "white", color: "black" }}
                 _focus={{ boxShadow: "outline" }}
               >
-                <BiUser size={24} />
-                {currentWallet.addr &&
-                  currentWallet.addr.slice(0, 3) +
-                    "..." +
-                    currentWallet.addr.slice(-3)}
+                <Flex flexDirection="row" gridGap={2}>
+                  <BiUser size={24} display="inline-block" />
+                  {currentWallet.addr &&
+                    currentWallet.addr.slice(0, 3) +
+                      "..." +
+                      currentWallet.addr.slice(-3)}
+                </Flex>
               </MenuButton>
               <MenuList>
                 <MenuItem icon={<IoLogoInstagram size={24} />}>
