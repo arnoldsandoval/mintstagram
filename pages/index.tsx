@@ -1,4 +1,6 @@
 import type { NextPage } from "next";
+import Link from "next/link";
+
 import {
   Container,
   Button,
@@ -11,7 +13,6 @@ import {
 import { IoLogoInstagram } from "react-icons/io";
 import { useSession, signIn } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 
 const Home: NextPage = () => {
   // import { create } from "ipfs-http-client";
@@ -27,47 +28,51 @@ const Home: NextPage = () => {
   // };
 
   const router = useRouter();
-  const { data: session, status } = useSession();
-  const isAuthenticated = status === "authenticated";
-  const isLoading = status === "loading";
-
-  useEffect(() => {
-    if (isAuthenticated) {
+  const { data: session, status } = useSession({
+    onAuthenticated() {
       router.push("/mint");
-    }
-  }, [isAuthenticated, router, status]);
+    },
+  });
+  const isAuthenticated = status === "authenticated";
+  const isUnauthenticated = status === "unauthenticated";
 
-  if (isLoading) {
+  if (status === "loading") {
     return <Spinner />;
   }
 
   return (
-    <>
-      {!isAuthenticated && !isLoading && (
-        <Container maxW="m">
-          <Flex flexDirection="column" gridGap={5}>
-            <Heading as="h1" size="xl">
-              Turn your Instagram post in to an NFT.
-            </Heading>
-            <Box mb={5}>
-              <Text as="h1" fontSize="xl">
-                Mintstagram is the easiest way turn your Instagram posts in to
-                NFTs on Flow.
-              </Text>
-            </Box>
-            <Button
-              variant="instagram"
-              leftIcon={<IoLogoInstagram size={28} />}
-              onClick={() => signIn("instagram")}
-              maxW="sm"
-              size="lg"
-            >
-              Sign in with Instagram
+    <Container maxW="m">
+      <Flex flexDirection="column" gridGap={5}>
+        <Heading as="h1" size="xl">
+          Turn your Instagram post in to an NFT.
+        </Heading>
+        <Box mb={5}>
+          <Text as="h1" fontSize="xl">
+            Mintstagram is the easiest way turn your Instagram posts in to NFTs
+            on Flow.
+          </Text>
+        </Box>
+        {isUnauthenticated && (
+          <Button
+            variant="instagram"
+            leftIcon={<IoLogoInstagram size={28} />}
+            onClick={() => signIn("instagram", { callbackUrl: `/mint` })}
+            maxW="sm"
+            size="lg"
+          >
+            Sign in with Instagram
+          </Button>
+        )}
+
+        {isAuthenticated && (
+          <Link href="/mint" passHref>
+            <Button as="a" maxW="sm" size="lg">
+              Get Started
             </Button>
-          </Flex>
-        </Container>
-      )}
-    </>
+          </Link>
+        )}
+      </Flex>
+    </Container>
   );
 };
 
