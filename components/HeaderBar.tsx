@@ -4,6 +4,7 @@ import {
   Flex,
   Heading,
   Menu,
+  Text,
   MenuButton,
   MenuList,
   MenuItem,
@@ -62,10 +63,13 @@ export const HeaderBar = ({
               >
                 <Flex flexDirection="row" gridGap={2}>
                   <BiUser size={24} display="inline-block" />
-                  {currentWallet.addr &&
-                    currentWallet.addr.slice(0, 3) +
-                      "..." +
-                      currentWallet.addr.slice(-3)}
+                  {currentWallet.addr && (
+                    <Text variant="mono">
+                      {currentWallet.addr.slice(0, 3) +
+                        "..." +
+                        currentWallet.addr.slice(-3)}
+                    </Text>
+                  )}
                 </Flex>
               </MenuButton>
               <MenuList>
@@ -74,7 +78,9 @@ export const HeaderBar = ({
                 </MenuItem>
                 <MenuItem icon={<BiWallet size={24} />}>
                   {!currentWallet.addr && <>No wallet connected</>}
-                  {currentWallet.addr && <>{currentWallet.addr}</>}
+                  {currentWallet.addr && (
+                    <Text variant="mono">{currentWallet.addr}</Text>
+                  )}
                 </MenuItem>
                 <MenuDivider />
                 <MenuItem

@@ -1,3 +1,4 @@
+import "@fontsource/roboto-mono/400.css";
 import "../flow.config";
 import type { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/react";
@@ -6,7 +7,6 @@ import { FlowAuthProvider } from "../contexts";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { Layout } from "../containers";
-
 import { theme } from "../theme";
 
 const queryClient = new QueryClient({

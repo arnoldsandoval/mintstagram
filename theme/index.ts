@@ -19,6 +19,13 @@ export const theme = extendTheme({
   components: {
     Button,
     Menu,
+    Text: {
+      variants: {
+        mono: {
+          fontFamily: "Roboto Mono",
+        },
+      },
+    },
     Progress: {
       baseStyle: {
         track: {

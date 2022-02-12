@@ -13,6 +13,7 @@
     "@chakra-ui/react": "^1.8.3",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
+    "@fontsource/roboto-mono": "^4.5.3",
     "@onflow/fcl": "^0.0.78",
     "@onflow/types": "^0.0.6",
     "axios": "^0.25.0",
