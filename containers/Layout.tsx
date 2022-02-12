@@ -29,7 +29,7 @@ export const Layout = ({ children }: { children: ReactNode }) => {
           maxW="container.xl"
           paddingBlockStart={10}
           paddingInline={10}
-          pt={10}
+          pt={14}
           pb={10}
           as="main"
         >

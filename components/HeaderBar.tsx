@@ -35,6 +35,7 @@ export const HeaderBar = ({
     }
   });
 
+  const errColor = "var(--chakra-colors-yellow-600)";
   return (
     <Box borderBottom="1px" borderColor="gray.900" justifyContent="center">
       <Grid
@@ -42,7 +43,7 @@ export const HeaderBar = ({
         gap={6}
         paddingInline={10}
         paddingBlock={3}
-        height="96px"
+        height="64px"
         alignItems="center"
       >
         <Box>
@@ -64,7 +65,8 @@ export const HeaderBar = ({
               >
                 <Flex flexDirection="row" gridGap={2}>
                   <BiUser size={24} display="inline-block" />
-                  <Text variant="mono">@{session.user.name}</Text> +
+                  <Text variant="mono">@{session.user.name}</Text>{" "}
+                  <Text color="gray.600">&#x2715;</Text>
                   {currentWallet.addr && (
                     <Text variant="mono">
                       {currentWallet.addr.slice(0, 3) +
@@ -73,7 +75,7 @@ export const HeaderBar = ({
                     </Text>
                   )}
                   {!currentWallet.addr && (
-                    <Text variant="mono" color="gray.400">
+                    <Text variant="mono" color={errColor}>
                       ???
                     </Text>
                   )}
@@ -83,8 +85,19 @@ export const HeaderBar = ({
                 <MenuItem icon={<IoLogoInstagram size={24} />}>
                   {session.user.name}
                 </MenuItem>
-                <MenuItem icon={<BiWallet size={24} />}>
-                  {!currentWallet.addr && <>No wallet connected</>}
+                <MenuItem
+                  icon={
+                    <BiWallet
+                      size={24}
+                      color={currentWallet.addr ? "white" : errColor}
+                    />
+                  }
+                >
+                  {!currentWallet.addr && (
+                    <Text variant="mono" color={errColor}>
+                      No wallet connected
+                    </Text>
+                  )}
                   {currentWallet.addr && (
                     <Text variant="mono">{currentWallet.addr}</Text>
                   )}
