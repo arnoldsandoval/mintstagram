@@ -9,6 +9,7 @@ import {
   MenuItem,
   MenuDivider,
 } from "@chakra-ui/react";
+import { useEffect } from "react";
 import { BiUser, BiWallet, BiLogOut } from "react-icons/bi";
 import { IoLogoInstagram } from "react-icons/io";
 import { useWallet } from "../contexts/FlowAuthContext";
@@ -25,9 +26,13 @@ export const HeaderBar = ({
 }: Props) => {
   const { logOut, currentWallet } = useWallet();
 
-  const handleSignOut = async () => {
-    await Promise.all([logOut(), instagramSignOut()]);
-  };
+  const handleSignOut = () => instagramSignOut();
+
+  useEffect(() => {
+    if (!isAuthenticated && currentWallet.loggedIn) {
+      logOut();
+    }
+  });
 
   return (
     <Box borderBottom="1px" borderColor="gray.900">
