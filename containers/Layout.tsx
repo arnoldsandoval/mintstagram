@@ -22,7 +22,7 @@ export const Layout = ({ children }: { children: ReactNode }) => {
         <HeaderBar
           isAuthenticated={isAuthenticated}
           session={session}
-          handleSignOut={signOut}
+          handleSignOut={() => signOut({ redirect: false })}
         />
 
         <Container
