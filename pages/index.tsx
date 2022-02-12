@@ -1,13 +1,11 @@
 import type { NextPage } from "next";
 import Link from "next/link";
-
 import {
   Container,
   Button,
   Heading,
   Flex,
   Text,
-  Box,
   Spinner,
 } from "@chakra-ui/react";
 import { IoLogoInstagram } from "react-icons/io";
@@ -33,8 +31,6 @@ const Home: NextPage = () => {
       router.push("/mint");
     },
   });
-  const isAuthenticated = status === "authenticated";
-  const isUnauthenticated = status === "unauthenticated";
 
   if (status === "loading") {
     return <Spinner />;
@@ -46,13 +42,13 @@ const Home: NextPage = () => {
         <Heading as="h1" size="xl">
           Turn your Instagram post in to an NFT.
         </Heading>
-        <Box mb={5}>
-          <Text as="h1" fontSize="xl">
-            Mintstagram is the easiest way turn your Instagram posts in to NFTs
-            on Flow.
-          </Text>
-        </Box>
-        {isUnauthenticated && (
+
+        <Text as="h1" fontSize="xl" mb={5}>
+          Mintstagram is the easiest way turn your Instagram posts in to NFTs on
+          Flow.
+        </Text>
+
+        {status === "unauthenticated" && (
           <Button
             variant="instagram"
             leftIcon={<IoLogoInstagram size={28} />}
@@ -64,7 +60,7 @@ const Home: NextPage = () => {
           </Button>
         )}
 
-        {isAuthenticated && (
+        {status === "authenticated" && (
           <Link href="/mint" passHref>
             <Button as="a" maxW="sm" size="lg">
               Get Started

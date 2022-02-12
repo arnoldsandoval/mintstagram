@@ -1,4 +1,4 @@
-import { Container, Text, Flex, Button, Heading } from "@chakra-ui/react";
+import { Container, Text, Flex, Button, Heading, Box } from "@chakra-ui/react";
 import { BiWallet } from "react-icons/bi";
 import { useWallet } from "../contexts/FlowAuthContext";
 
@@ -15,11 +15,15 @@ export const ConnectWallet = ({ username }: Props) => {
         <Heading as="h1" size="xl">
           Hi, {username}!
         </Heading>
-
         <Text fontSize="xl" mb={5}>
           Before we can continue, please connect your Flow wallet.
         </Text>
-        <Button onClick={logIn} leftIcon={<BiWallet size={26} />}>
+        <Button
+          onClick={logIn}
+          size="lg"
+          leftIcon={<BiWallet size={26} />}
+          maxW="sm"
+        >
           Connect Flow Wallet
         </Button>
       </Flex>
