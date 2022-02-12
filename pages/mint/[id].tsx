@@ -20,18 +20,16 @@ const shine = `
 `;
 
 const Media: NextPage = () => {
-  const { status } = useSession();
+  const { status } = useSession({
+    required: true,
+    onUnauthenticated() {
+      router.push("/");
+    },
+  });
   const router = useRouter();
   const isAuthenticated = status === "authenticated";
-  const isLoading = status === "loading";
 
-  useEffect(() => {
-    if (!isAuthenticated && !isLoading) {
-      router.push("/");
-    }
-  }, [isAuthenticated, isLoading, router, status]);
-
-  if (isAuthenticated && !isLoading) {
+  if (isAuthenticated) {
     return (
       <Box>
         <Stack spacing={5}>

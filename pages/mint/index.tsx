@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { getInstagramMedia } from "../../queries";
+import { useWallet } from "../../contexts/FlowAuthContext";
 
 type MediaItem = {
   id: string;
@@ -18,49 +19,40 @@ type MediaItem = {
 };
 
 const Media: NextPage = () => {
-  const { data: session, status } = useSession();
-  const router = useRouter();
-  const { data, error, isError, isFetching } = useQuery(
-    "media",
-    getInstagramMedia
-  );
-
-  const isAuthenticated = status === "authenticated";
-  const isUnauthenticated = status === "unauthenticated";
-  const isLoading = status === "loading" || isFetching;
-  const [hasWallet, setHasWallet] = useState(false);
-
-  useEffect(() => {
-    if (isUnauthenticated) {
+  const { data: session, status } = useSession({
+    required: true,
+    onUnauthenticated() {
       router.push("/");
-    }
-  }, [isUnauthenticated, isLoading, router]);
+    },
+  });
+  const router = useRouter();
+  const { data, isFetching } = useQuery("media", getInstagramMedia);
+  const { currentWallet } = useWallet();
+  const { loggedIn } = currentWallet;
 
-  if (isLoading) {
+  const [hasWallet] = useState(loggedIn);
+
+  if (status === "loading" || isFetching) {
     return <Spinner />;
   }
 
-  if (isAuthenticated && !hasWallet) {
-    return <ConnectWallet />;
+  if (!hasWallet) {
+    return <ConnectWallet username={session.user.name} />;
   }
 
-  if (isAuthenticated && !isLoading && !isLoading) {
-    return (
-      <Stack spacing={5}>
-        <Heading as="h1" size="xl">
-          Hi, {session.user.name}!
-        </Heading>
-        <Text fontSize="xl" mb={5}>
-          Select a piece of media below you wish to turn in to an NFT!
-        </Text>
-        <Box>
-          <MediaGrid media={data.data} />
-        </Box>
-      </Stack>
-    );
-  }
-
-  return <Spinner />;
+  return (
+    <Stack spacing={5}>
+      <Heading as="h1" size="xl">
+        What are you minting today?
+      </Heading>
+      <Text fontSize="xl" mb={5}>
+        Select a piece of media below you wish to turn in to an NFT!
+      </Text>
+      <Box>
+        <MediaGrid media={data.data} />
+      </Box>
+    </Stack>
+  );
 };
 
 export default Media;
